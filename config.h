@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "mono:pixelsize=16:antialias=true:autohint=true";
+static char *font = "mono:pixelsize=10:antialias=true:autohint=true";
 static char *font2[] = { "Inconsolata for Powerline:pixelsize=16:antialias=true:autohint=true" };
 static int borderpx = 2;
 
@@ -84,42 +84,41 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 0.92;
+float alpha = 1;
 
-/* Terminal colors (16 first used in escape sequence) */
-static const char *colorname[] = {
-	"#282828", /* hard contrast: #1d2021 / soft contrast: #32302f */
-	"#cc241d",
-	"#98971a",
-	"#d79921",
-	"#458588",
-	"#b16286",
-	"#689d6a",
-	"#a89984",
-	"#928374",
-	"#fb4934",
-	"#b8bb26",
-	"#fabd2f",
-	"#83a598",
-	"#d3869b",
-	"#8ec07c",
-	"#ebdbb2",
+const char *colorname[] = {
+	"#3b4252", /*  0: nord1 */
+	"#bf616a", /*  1: nord11 */
+	"#a3be8c", /*  2: nord14 */
+	"#ebcb8b", /*  3: nord13 */
+	"#81a1c1", /*  4: nord9 */
+	"#b48ead", /*  5: nord15 */
+	"#88c0d0", /*  6: nord8 */
+	"#e5e9f0", /*  7: nord5 */
+	"#4c566a", /*  8: nord3 */
+	"#bf616a", /*  9: nord11 */
+	"#a3be8c", /* 10: nord14 */
+	"#ebcb8b", /* 11: nord3 */
+	"#81a1c1", /* 12: nord9 */
+	"#b48ead", /* 13: nord15 */
+	"#8fbcbb", /* 14: nord7 */
+	"#eceff4", /* 15: nord6 */
 	[255] = 0,
-	/* more colors can be added after 255 to use with DefaultXX */
-	"#282828",   /* 256 -> bg */
-	"#ebdbb2",   /* 257 -> fg */
-	"#add8e6", /* 258 -> cursor */
+	// defaults
+	[256] = "#d8dee9", /* 256: nord4 */
+	[257] = "#2e3440", /* 257: nord0 */
 };
-
 
 /*
  * Default colors (colorname index)
- * foreground, background, cursor, reverse cursor
+ * foreground, background, cursor, reverse
+ * cursor
  */
-unsigned int defaultfg = 257;
-unsigned int defaultbg = 256;
-static unsigned int defaultcs = 258;
-static unsigned int defaultrcs = 0;
+unsigned int defaultfg = 256; /* nord4 */
+unsigned int defaultbg = 257; /* nord0 */
+unsigned int defaultcs = 256; /* nord4 */
+unsigned int defaultrcs = 8;  /* nord3 */
+
 
 /*
  * Default shape of cursor
@@ -204,10 +203,10 @@ static MouseShortcut mshortcuts[] = {
 
 MouseKey mkeys[] = {
 	/* button               mask            function        argument */
-	{ Button4,              ShiftMask,      kscrollup,      {.i =  1} },
-	{ Button5,              ShiftMask,      kscrolldown,    {.i =  1} },
-	{ Button4,              MODKEY,         kscrollup,      {.i =  1} },
-	{ Button5,              MODKEY,         kscrolldown,    {.i =  1} },
+	{ Button4,              ShiftMask,      kscrollup,      {.i =  3} },
+	{ Button5,              ShiftMask,      kscrolldown,    {.i =  3} },
+	{ Button4,              MODKEY,         kscrollup,      {.i =  3} },
+	{ Button5,              MODKEY,         kscrolldown,    {.i =  3} },
 	{ Button4,              TERMMOD,        zoom,           {.f =  +1} },
 	{ Button5,              TERMMOD,        zoom,           {.f =  -1} },
 };
@@ -247,15 +246,11 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,               XK_Down,        kscrolldown,    {.i =  1} },
 	{ MODKEY,               XK_u,           kscrollup,      {.i = -1} },
 	{ MODKEY,               XK_d,           kscrolldown,    {.i = -1} },
-	{ TERMMOD,              XK_Up,          zoom,           {.f = +1} },
-	{ TERMMOD,              XK_Down,        zoom,           {.f = -1} },
 	{ TERMMOD,              XK_K,           zoom,           {.f = +1} },
 	{ TERMMOD,              XK_J,           zoom,           {.f = -1} },
-	{ TERMMOD,              XK_U,           zoom,           {.f = +2} },
-	{ TERMMOD,              XK_D,           zoom,           {.f = -2} },
-	{ MODKEY,               XK_l,           externalpipe,   {.v = openurlcmd } },
-	{ MODKEY,               XK_y,           externalpipe,   {.v = copyurlcmd } },
-	{ MODKEY,               XK_o,           externalpipe,   {.v = copyoutput } },
+	{ MODKEY,               XK_o,           externalpipe,   {.v = openurlcmd } },
+	{ MODKEY,               XK_m,           externalpipe,   {.v = copyurlcmd } },
+	{ MODKEY,               XK_n,           externalpipe,   {.v = copyoutput } },
 };
 
 /*
